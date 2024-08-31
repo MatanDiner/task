@@ -1,24 +1,49 @@
 import { Typography, Card, Button } from "@mui/material";
 import { useStyles } from "./Product.style";
 
-const Product = ({ imgSrc, name, desc, price }) => {
+const Product = ({
+  id,
+  imgSrc,
+  name,
+  description,
+  price,
+  onDelete,
+  setSelectedProduct,
+}) => {
   const classes = useStyles();
+
+  const onSelectProduct = () => {
+    setSelectedProduct({
+      id,
+      image: imgSrc,
+      name,
+      description,
+      price,
+    });
+  };
+
   return (
-    <Card classes={{ root: classes.container }}>
+    <Button
+      onClick={onSelectProduct}
+      className={classes.container}
+      disableFocusRipple={true}
+    >
       <div className={classes.detailsContainer}>
         <img src={imgSrc} className={classes.img} />
-        <div>
-          <Typography classes={{ root: classes.title }}>{name}</Typography>
-          <Typography className={classes.desc}>{desc}</Typography>
-          <Typography classes={{ root: classes.priceContainer }}>
+        <div className={classes.details}>
+          <Typography className={classes.title}>{name}</Typography>
+          <Typography className={classes.desc}>{description}</Typography>
+          <Typography className={classes.priceContainer}>
             price: <span className={classes.price}>{price}</span>
           </Typography>
         </div>
       </div>
       <div className={classes.buttonContainer}>
-        <Button className={classes.button}>Delete</Button>
+        <Button onClick={(e) => onDelete(e, id)} className={classes.button}>
+          Delete
+        </Button>
       </div>
-    </Card>
+    </Button>
   );
 };
 

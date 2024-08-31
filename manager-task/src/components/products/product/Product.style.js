@@ -2,9 +2,11 @@ import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
   container: {
-    display: "flex",
-    marginTop: 20,
-    backgroundColor: "coral",
+    marginTop: "20px !important",
+    backgroundColor: "coral !important",
+    "&:focus": {
+      border: "1px solid blue",
+    },
   },
   img: {
     width: 100,
@@ -14,9 +16,10 @@ export const useStyles = makeStyles({
     display: "flex",
     padding: "10px 10px",
     color: "white",
+    flex: 1,
   },
   title: {
-    fontSize: 20,
+    fontSize: "20px !important",
     color: "aqua",
   },
   desc: {
@@ -24,7 +27,7 @@ export const useStyles = makeStyles({
   },
   priceContainer: {
     color: "chartreuse",
-    fontSize: 20,
+    fontSize: "20 !important",
     fontWeight: 700,
     display: "flex",
     justifyContent: "end",
@@ -38,8 +41,14 @@ export const useStyles = makeStyles({
     display: "flex",
     alignItems: "end",
     padding: 10,
+    boxSizing: "border-box",
+    height: "100%",
   },
   button: {
-    backgroundColor: "bisque",
+    backgroundColor: "bisque !important",
+  },
+  details: {
+    textAlign: "left",
+    paddingLeft: 10,
   },
 });
