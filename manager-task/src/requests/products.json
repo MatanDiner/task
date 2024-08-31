@@ -1,0 +1,43 @@
+{"data":[
+    {
+        "id":11,
+        "name":"Annibale Colombo Bed",
+        "price":1899.99,
+        "description":"The Annibale Colombo Bed is a luxurious and elegant bed frame, crafted with high-quality materials for a comfortable and stylish bedroom.",
+        "image":"https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/1.png",
+        "creationDate":"01/04/2024"
+    },
+    {
+        "id":12,
+        "name":"Annibale Colombo Sofa",
+        "price":2499.99,
+        "description":"The Annibale Colombo Sofa is a sophisticated and comfortable seating option, featuring exquisite design and premium upholstery for your living room.",
+        "image":"https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/3.png",
+        "creationDate":"01/05/2024"
+    },
+    {
+        "id":13,
+        "name":"Bedside Table African Cherry",
+        "price":299.99,
+        "description":"The Bedside Table in African Cherry is a stylish and functional addition to your bedroom, providing convenient storage space and a touch of elegance.",
+        "image":"https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/3.png",
+        "creationDate":"01/06/2024"
+    },
+    {
+        "id":14,
+        "name":"Knoll Saarinen Executive Conference Chair",
+        "price":499.99,
+        "description":"The Knoll Saarinen Executive Conference Chair is a modern and ergonomic chair, perfect for your office or conference room with its timeless design.",
+        "image":"https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/3.png",
+        "creationDate":"01/07/2024"
+    },
+    {
+        "id":15,
+        "name":"Wooden Bathroom Sink With Mirror",
+        "price":799.99,
+        "description":"The Wooden Bathroom Sink with Mirror is a unique and stylish addition to your bathroom, featuring a wooden sink countertop and a matching mirror.",
+        "image":"https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/3.png",
+        "creationDate":"01/08/2024"
+    }
+]
+}
