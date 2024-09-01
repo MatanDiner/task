@@ -22,3 +22,5 @@ export const SORT_BY = {
   name: { value: "1", label: "name" },
   date: { value: "2", label: "date" },
 };
+
+export const PRODUCTS_STORAGE_KEY = "products-manager-app-key";

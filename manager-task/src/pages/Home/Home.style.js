@@ -3,6 +3,9 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles({
   content: {
     display: "flex",
+    "@media (max-width: 800px)": {
+      flexDirection: "column-reverse",
+    },
   },
   filters: {
     display: "flex",

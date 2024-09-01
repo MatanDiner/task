@@ -1,5 +1,6 @@
 import Product from "./product/Product";
 import { useStyles } from "./Products.style";
+import { PRODUCTS_STORAGE_KEY } from "../../constants";
 
 const Products = ({ products = [], setProducts, setSelectedProduct }) => {
   const classes = useStyles();
@@ -8,6 +9,7 @@ const Products = ({ products = [], setProducts, setSelectedProduct }) => {
     e.stopPropagation();
     const newProducts = products.filter(({ id }) => id !== removedId);
     setProducts(newProducts);
+    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(newProducts));
     if (newProducts.length) setSelectedProduct(newProducts[0]);
   };
 

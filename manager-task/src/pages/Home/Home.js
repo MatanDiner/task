@@ -8,7 +8,7 @@ import { Button, Dialog } from "@mui/material";
 import NoImage from "../../assets/images/no-image.jpg";
 import Search from "../../components/search/Search";
 import CustomInput from "../../components/customInput/CustomInput";
-import { SORT_BY } from "../../constants";
+import { SORT_BY, PRODUCTS_STORAGE_KEY } from "../../constants";
 import { sortBy } from "../../utils";
 
 const Home = () => {
@@ -27,11 +27,24 @@ const Home = () => {
       setSelectedProduct(products[0]);
       setSortByValue(SORT_BY.name.value);
     };
-    getProductsList();
+    let storageProducts = localStorage.getItem(PRODUCTS_STORAGE_KEY);
+    if (storageProducts) {
+      storageProducts = JSON.parse(storageProducts);
+      setProducts(storageProducts);
+      setInitialProducts(storageProducts);
+      setSelectedProduct(storageProducts[0]);
+      setSortByValue(SORT_BY.name.value);
+    } else {
+      getProductsList();
+    }
   }, []);
 
   useEffect(() => {
-    let productsCopy = [...products];
+    if (products.length) sortbyHandler();
+  }, [sortByValue]);
+
+  const sortbyHandler = (searchProducts) => {
+    let productsCopy = searchProducts ? [...searchProducts] : [...products];
     if (productsCopy.length) {
       if (sortByValue === SORT_BY.name.value) {
         productsCopy = sortBy(productsCopy, "name");
@@ -44,7 +57,7 @@ const Home = () => {
       }
       setProducts(productsCopy);
     }
-  }, [sortByValue]);
+  };
 
   const onSave = (product) => {
     const productsCopy = [...products];
@@ -63,17 +76,19 @@ const Home = () => {
       setIsOpen(false);
     }
     setProducts(productsCopy);
+    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(productsCopy));
   };
 
   const searchHandler = (value) => {
+    let searchedProducts;
     if (value === "") {
-      setProducts(initialProducts);
+      searchedProducts = initialProducts;
     } else {
-      const searchedProducts = products.filter(({ name }) =>
+      searchedProducts = products.filter(({ name }) =>
         name.toUpperCase().includes(value.toUpperCase())
       );
-      setProducts(searchedProducts);
     }
+    sortbyHandler(searchedProducts);
   };
 
   const onChangeSortBy = (e) => {
