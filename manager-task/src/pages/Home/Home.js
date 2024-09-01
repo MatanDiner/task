@@ -6,10 +6,12 @@ import ProductDetails from "../../components/productDetails/ProductDetails";
 import { useStyles } from "./Home.style";
 import { Button, Dialog } from "@mui/material";
 import NoImage from "../../assets/images/no-image.jpg";
+import Search from "../../components/search/Search";
 
 const Home = () => {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
+  const [initialProducts, setInitialProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
 
@@ -17,6 +19,7 @@ const Home = () => {
     const getProductsList = async () => {
       const products = await getProducts();
       setProducts(products);
+      setInitialProducts(products);
       setSelectedProduct(products[0]);
     };
     getProductsList();
@@ -44,10 +47,22 @@ const Home = () => {
     setProducts(productsCopy);
   };
 
+  const searchHandler = (value) => {
+    if (value === "") {
+      setProducts(initialProducts);
+    } else {
+      const searchedProducts = products.filter(({ name }) =>
+        name.toUpperCase().includes(value.toUpperCase())
+      );
+      setProducts(searchedProducts);
+    }
+  };
+
   return (
     <Layout>
       <div>
         <Button onClick={() => setIsOpen(true)}>Add</Button>
+        <Search searchHandler={searchHandler} />
       </div>
       <div className={classes.content}>
         <Products
