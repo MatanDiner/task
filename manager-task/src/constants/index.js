@@ -17,3 +17,8 @@ export const PRODUCT_ERROR_MESSAGE_CONFIG = {
     [RREQUIRED_NUMBER_VALIDAION]: "נא להזין מספר גדול מאפס",
   },
 };
+
+export const SORT_BY = {
+  name: { value: "1", label: "name" },
+  date: { value: "2", label: "date" },
+};

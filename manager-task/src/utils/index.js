@@ -24,3 +24,15 @@ const checkValidation = (type, value) => {
 export const checkError = (validation = [], value) => {
   return validation.find((validation) => checkValidation(validation, value));
 };
+
+export const sortBy = (arr, fieldName) => {
+  return arr.sort((a, b) => {
+    if (a[fieldName] < b[fieldName]) {
+      return -1;
+    }
+    if (a[fieldName] > b[fieldName]) {
+      return 1;
+    }
+    return 0;
+  });
+};

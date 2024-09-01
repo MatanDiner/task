@@ -8,6 +8,7 @@ const Product = ({
   description,
   price,
   onDelete,
+  creationDate,
   setSelectedProduct,
 }) => {
   const classes = useStyles();
@@ -29,7 +30,12 @@ const Product = ({
       disableFocusRipple={true}
     >
       <div className={classes.detailsContainer}>
-        <img src={imgSrc} className={classes.img} />
+        <div>
+          <img src={imgSrc} className={classes.img} />
+          <Typography className={classes.creationDate}>
+            {creationDate}
+          </Typography>
+        </div>
         <div className={classes.details}>
           <Typography className={classes.title}>{name}</Typography>
           <Typography className={classes.desc}>{description}</Typography>

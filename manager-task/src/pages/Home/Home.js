@@ -7,6 +7,9 @@ import { useStyles } from "./Home.style";
 import { Button, Dialog } from "@mui/material";
 import NoImage from "../../assets/images/no-image.jpg";
 import Search from "../../components/search/Search";
+import CustomInput from "../../components/customInput/CustomInput";
+import { SORT_BY } from "../../constants";
+import { sortBy } from "../../utils";
 
 const Home = () => {
   const classes = useStyles();
@@ -14,6 +17,7 @@ const Home = () => {
   const [initialProducts, setInitialProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const [sortByValue, setSortByValue] = useState();
 
   useEffect(() => {
     const getProductsList = async () => {
@@ -21,13 +25,26 @@ const Home = () => {
       setProducts(products);
       setInitialProducts(products);
       setSelectedProduct(products[0]);
+      setSortByValue(SORT_BY.name.value);
     };
     getProductsList();
   }, []);
 
   useEffect(() => {
-    console.log({ products });
-  }, [products]);
+    let productsCopy = [...products];
+    if (productsCopy.length) {
+      if (sortByValue === SORT_BY.name.value) {
+        productsCopy = sortBy(productsCopy, "name");
+      } else {
+        productsCopy = productsCopy.sort(
+          (a, b) =>
+            new Date(a.creationDate).getTime() -
+            new Date(b.creationDate).getTime()
+        );
+      }
+      setProducts(productsCopy);
+    }
+  }, [sortByValue]);
 
   const onSave = (product) => {
     const productsCopy = [...products];
@@ -41,6 +58,7 @@ const Home = () => {
         ...product,
         id: new Date().getTime(),
         image: NoImage,
+        creationDate: new Date().toLocaleDateString("en-GB"),
       };
       setIsOpen(false);
     }
@@ -58,11 +76,29 @@ const Home = () => {
     }
   };
 
+  const onChangeSortBy = (e) => {
+    const value = e.target.value;
+    setSortByValue(value);
+    console.log({ value });
+  };
+
   return (
     <Layout>
-      <div>
-        <Button onClick={() => setIsOpen(true)}>Add</Button>
+      <div className={classes.filters}>
+        <Button className={classes.addBtn} onClick={() => setIsOpen(true)}>
+          Add
+        </Button>
         <Search searchHandler={searchHandler} />
+        <CustomInput
+          isSelect={true}
+          label="Sort by"
+          value={sortByValue}
+          onChange={onChangeSortBy}
+          options={[
+            { value: SORT_BY.name.value, label: SORT_BY.name.label },
+            { value: SORT_BY.date.value, label: SORT_BY.date.label },
+          ]}
+        />
       </div>
       <div className={classes.content}>
         <Products
@@ -72,7 +108,11 @@ const Home = () => {
         />
         <ProductDetails selectedProduct={selectedProduct} onSave={onSave} />
       </div>
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog
+        classes={{ paper: classes.modal }}
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
         <ProductDetails onSave={onSave} />
       </Dialog>
     </Layout>

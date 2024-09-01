@@ -6,10 +6,15 @@ import {
   PRODUCT_VALIDATIONS_CONFIG,
   PRODUCT_ERROR_MESSAGE_CONFIG,
 } from "../../constants";
+import CustomInput from "../customInput/CustomInput";
 
 const ProductDetails = ({ selectedProduct, onSave = () => {} }) => {
   const classes = useStyles();
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    price: "",
+  });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -41,35 +46,40 @@ const ProductDetails = ({ selectedProduct, onSave = () => {} }) => {
   return (
     <Card className={classes.container}>
       {product.image && <img src={product.image} className={classes.img} />}
-      <TextField
+      <CustomInput
         label={"name"}
         name={"name"}
         value={product.name}
         onChange={onChange}
         error={!!errors.name}
-        helperText={PRODUCT_ERROR_MESSAGE_CONFIG.name[errors.name] ?? ""}
+        errorMessage={PRODUCT_ERROR_MESSAGE_CONFIG.name[errors.name] ?? ""}
         InputLabelProps={{ shrink: true }}
       />
-      <TextareaAutosize
-        minRows={5}
-        maxRows={5}
+      <CustomInput
         name={"description"}
         label={"description"}
         value={product.description}
         onChange={onChange}
         error={!!errors.description}
-        helperText={
+        errorMessage={
           PRODUCT_ERROR_MESSAGE_CONFIG.description[errors.description] ?? ""
         }
+        InputProps={{
+          inputComponent: TextareaAutosize,
+          inputProps: {
+            minRows: 5,
+            maxRows: 5,
+          },
+        }}
       />
-      <TextField
+      <CustomInput
         label={"price"}
         name={"price"}
         value={product.price}
         onChange={onChange}
         InputLabelProps={{ shrink: true }}
         error={!!errors.price}
-        helperText={PRODUCT_ERROR_MESSAGE_CONFIG.price[errors.price] ?? ""}
+        errorMessage={PRODUCT_ERROR_MESSAGE_CONFIG.price[errors.price] ?? ""}
       />
       <div className={classes.buttonContainer}>
         <Button className={classes.button} onClick={checkValidations}>

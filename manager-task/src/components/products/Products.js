@@ -13,7 +13,7 @@ const Products = ({ products = [], setProducts, setSelectedProduct }) => {
 
   return (
     <div className={classes.container}>
-      {products.map(({ id, image, name, price, description }) => (
+      {products.map(({ id, image, name, price, description, creationDate }) => (
         <Product
           key={id}
           id={id}
@@ -21,6 +21,7 @@ const Products = ({ products = [], setProducts, setSelectedProduct }) => {
           name={name}
           description={description}
           price={price}
+          creationDate={creationDate}
           onDelete={onDelete}
           setSelectedProduct={setSelectedProduct}
         />

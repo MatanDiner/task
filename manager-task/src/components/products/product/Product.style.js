@@ -26,7 +26,7 @@ export const useStyles = makeStyles({
     paddingLeft: 10,
   },
   priceContainer: {
-    color: "chartreuse",
+    color: "midnightblue",
     fontSize: "20 !important",
     fontWeight: 700,
     display: "flex",
@@ -50,5 +50,9 @@ export const useStyles = makeStyles({
   details: {
     textAlign: "left",
     paddingLeft: 10,
+    width: "100%",
+  },
+  creationDate: {
+    color: "midnightblue",
   },
 });
