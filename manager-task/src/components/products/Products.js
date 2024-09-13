@@ -1,16 +1,19 @@
+import { useContext } from "react";
 import Product from "./product/Product";
 import { useStyles } from "./Products.style";
-import { PRODUCTS_STORAGE_KEY } from "../../constants";
+import * as actionTypes from "../../contexts/actionTypes";
+import AppContext from "../../contexts/context";
 
-const Products = ({ products = [], setProducts, setSelectedProduct }) => {
+const Products = () => {
   const classes = useStyles();
+  const {
+    state: { products },
+    dispatch,
+  } = useContext(AppContext);
 
   const onDelete = (e, removedId) => {
     e.stopPropagation();
-    const newProducts = products.filter(({ id }) => id !== removedId);
-    setProducts(newProducts);
-    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(newProducts));
-    if (newProducts.length) setSelectedProduct(newProducts[0]);
+    dispatch({ type: actionTypes.DELETE_ITEM, payload: removedId });
   };
 
   return (
@@ -25,7 +28,6 @@ const Products = ({ products = [], setProducts, setSelectedProduct }) => {
           price={price}
           creationDate={creationDate}
           onDelete={onDelete}
-          setSelectedProduct={setSelectedProduct}
         />
       ))}
     </div>

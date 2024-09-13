@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getProducts } from "../../requests/requests";
 import Layout from "../../components/layout/Layout";
 import Products from "../../components/products/Products";
 import ProductDetails from "../../components/productDetails/ProductDetails";
 import { useStyles } from "./Home.style";
 import { Button, Dialog } from "@mui/material";
-import NoImage from "../../assets/images/no-image.jpg";
 import Search from "../../components/search/Search";
 import CustomInput from "../../components/customInput/CustomInput";
 import { SORT_BY, PRODUCTS_STORAGE_KEY } from "../../constants";
 import { sortBy } from "../../utils";
+import * as actionTypes from "../../contexts/actionTypes";
+import AppContext from "../../contexts/context";
 
 const Home = () => {
   const classes = useStyles();
-  const [products, setProducts] = useState([]);
+  const {
+    state: { products = [], selectedProduct = {} },
+    dispatch,
+  } = useContext(AppContext);
   const [initialProducts, setInitialProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [sortByValue, setSortByValue] = useState();
 
   useEffect(() => {
     const getProductsList = async () => {
       const products = await getProducts();
-      setProducts(products);
+      dispatch({ type: actionTypes.SAVE_PRODUCTS, payload: products });
       setInitialProducts(products);
-      setSelectedProduct(products[0]);
       setSortByValue(SORT_BY.name.value);
     };
     let storageProducts = localStorage.getItem(PRODUCTS_STORAGE_KEY);
     if (storageProducts) {
       storageProducts = JSON.parse(storageProducts);
-      setProducts(storageProducts);
+      dispatch({ type: actionTypes.SAVE_PRODUCTS, payload: storageProducts });
       setInitialProducts(storageProducts);
-      setSelectedProduct(storageProducts[0]);
       setSortByValue(SORT_BY.name.value);
     } else {
       getProductsList();
@@ -55,28 +56,8 @@ const Home = () => {
             new Date(b.creationDate).getTime()
         );
       }
-      setProducts(productsCopy);
+      dispatch({ type: actionTypes.SAVE_PRODUCTS, payload: productsCopy });
     }
-  };
-
-  const onSave = (product) => {
-    const productsCopy = [...products];
-    const newProductIndex = productsCopy.findIndex(
-      ({ id }) => id === product.id
-    );
-    if (newProductIndex !== -1) {
-      productsCopy[newProductIndex] = product;
-    } else {
-      productsCopy[productsCopy.length] = {
-        ...product,
-        id: new Date().getTime(),
-        image: NoImage,
-        creationDate: new Date().toLocaleDateString("en-GB"),
-      };
-      setIsOpen(false);
-    }
-    setProducts(productsCopy);
-    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(productsCopy));
   };
 
   const searchHandler = (value) => {
@@ -94,7 +75,15 @@ const Home = () => {
   const onChangeSortBy = (e) => {
     const value = e.target.value;
     setSortByValue(value);
-    console.log({ value });
+  };
+
+  const onUpdateHandler = (product) => {
+    dispatch({ type: actionTypes.UPDATE_ITEM, payload: product });
+  };
+
+  const onAddHandler = (product) => {
+    dispatch({ type: actionTypes.ADD_ITEM, payload: product });
+    setIsOpen(false);
   };
 
   return (
@@ -116,19 +105,18 @@ const Home = () => {
         />
       </div>
       <div className={classes.content}>
-        <Products
-          products={products}
-          setProducts={setProducts}
-          setSelectedProduct={setSelectedProduct}
+        <Products />
+        <ProductDetails
+          onSave={onUpdateHandler}
+          selectedProduct={selectedProduct}
         />
-        <ProductDetails selectedProduct={selectedProduct} onSave={onSave} />
       </div>
       <Dialog
         classes={{ paper: classes.modal }}
         open={isOpen}
         onClose={() => setIsOpen(false)}
       >
-        <ProductDetails onSave={onSave} />
+        <ProductDetails onSave={onAddHandler} />
       </Dialog>
     </Layout>
   );

@@ -36,3 +36,7 @@ export const sortBy = (arr, fieldName) => {
     return 0;
   });
 };
+
+export const saveInLocalStorage = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};

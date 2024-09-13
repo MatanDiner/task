@@ -10,6 +10,7 @@ import CustomInput from "../customInput/CustomInput";
 
 const ProductDetails = ({ selectedProduct, onSave = () => {} }) => {
   const classes = useStyles();
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
