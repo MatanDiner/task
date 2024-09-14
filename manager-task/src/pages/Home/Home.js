@@ -4,7 +4,7 @@ import Layout from "../../components/layout/Layout";
 import Products from "../../components/products/Products";
 import ProductDetails from "../../components/productDetails/ProductDetails";
 import { useStyles } from "./Home.style";
-import { Button, Dialog } from "@mui/material";
+import { Button, Dialog, DialogContent } from "@mui/material";
 import Search from "../../components/search/Search";
 import CustomInput from "../../components/customInput/CustomInput";
 import { SORT_BY, PRODUCTS_STORAGE_KEY } from "../../constants";
@@ -67,7 +67,9 @@ const Home = () => {
         open={isOpen}
         onClose={() => setIsOpen(false)}
       >
-        <ProductDetails onSave={onAddHandler} />
+        <DialogContent classes={{ root: classes.dialogContent }}>
+          <ProductDetails onSave={onAddHandler} />
+        </DialogContent>
       </Dialog>
     </Layout>
   );

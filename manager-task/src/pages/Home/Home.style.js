@@ -23,4 +23,29 @@ export const useStyles = makeStyles({
     minWidth: "300px !important",
     height: "500px !important",
   },
+  dialogContent: {
+    backgroundColor: "burlywood",
+    "&::-webkit-scrollbar": {
+      display: "block",
+      width: 5,
+    },
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "transparent",
+    },
+
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "brown",
+      borderRadius: 10,
+    },
+
+    "&::-webkit-scrollbar-track-piece:end": {
+      background: "transparent",
+      marginBottom: 10,
+    },
+
+    "&::-webkit-scrollbar-track-piece:start": {
+      background: "transparent",
+      marginTop: 10,
+    },
+  },
 });
