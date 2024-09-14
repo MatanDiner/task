@@ -1,9 +1,11 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useContext } from "react";
 import { FormControl, InputAdornment, TextField } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import debouce from "lodash.debounce";
+import AppContext from "../../contexts/context";
+import * as actionTypes from "../../contexts/actionTypes";
 
 const useStyles = makeStyles(() => {
   return createStyles({
@@ -15,14 +17,19 @@ const useStyles = makeStyles(() => {
 
 const Search = ({ searchHandler }) => {
   const { search } = useStyles();
-  const [searchTerm, setSearchTerm] = useState();
+  const { dispatch } = useContext(AppContext);
+  // const [searchTerm, setSearchTerm] = useState();
 
-  useEffect(() => {
-    if (typeof searchTerm === "string") searchHandler(searchTerm);
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   if (typeof searchTerm === "string") searchHandler(searchTerm);
+  // }, [searchTerm]);
 
   const handleChange = (e) => {
-    setSearchTerm(e.target.value);
+    dispatch({
+      type: actionTypes.UPDATE_SEARCH_VALUE,
+      payload: e.target.value,
+    });
+    //setSearchTerm(e.target.value);
   };
 
   const debouncedResults = useMemo(() => {
@@ -34,14 +41,6 @@ const Search = ({ searchHandler }) => {
       debouncedResults.cancel();
     };
   });
-
-  const onSearchTypeEnd = (value) => {
-    let timeoutId;
-    return function () {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => searchHandler(value), 2000);
-    };
-  };
 
   return (
     <div id="app">

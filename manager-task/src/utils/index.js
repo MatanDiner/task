@@ -2,6 +2,7 @@ import {
   RREQUIRED_VALIDAION,
   IS_NUMBER_VALIDAION,
   RREQUIRED_NUMBER_VALIDAION,
+  SORT_BY,
 } from "../constants";
 
 const isNumeric = (str) => {
@@ -23,6 +24,29 @@ const checkValidation = (type, value) => {
 
 export const checkError = (validation = [], value) => {
   return validation.find((validation) => checkValidation(validation, value));
+};
+
+export const sortItems = (items, sortByValue) => {
+  if (sortByValue === SORT_BY.name.value) {
+    items = sortBy(items, "name");
+  } else {
+    items = items.sort((a, b) => {
+      const datePartsA = a.creationDate.split("/");
+      const dateObjectA = new Date(
+        +datePartsA[2],
+        datePartsA[1] - 1,
+        +datePartsA[0]
+      );
+      const datePartsB = b.creationDate.split("/");
+      const dateObjectB = new Date(
+        +datePartsB[2],
+        datePartsB[1] - 1,
+        +datePartsB[0]
+      );
+      return dateObjectA.getTime() - dateObjectB.getTime();
+    });
+  }
+  return items;
 };
 
 export const sortBy = (arr, fieldName) => {

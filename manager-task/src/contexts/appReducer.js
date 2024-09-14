@@ -2,17 +2,20 @@ import * as actioTypes from "./actionTypes";
 import { PRODUCTS_STORAGE_KEY } from "../constants";
 import NoImage from "../assets/images/no-image.jpg";
 import { saveInLocalStorage } from "../utils";
+import { sortItems } from "../utils";
 
 export const reducer = (state, action) => {
   switch (action.type) {
     case actioTypes.ADD_ITEM:
-      const productsCopy = [...state.products];
+      let productsCopy = [...state.products];
       productsCopy[productsCopy.length] = {
         ...action.payload,
+        name: action.payload.name.toUpperCase(),
         id: new Date().getTime(),
         image: NoImage,
         creationDate: new Date().toLocaleDateString("en-GB"),
       };
+      productsCopy = sortItems(productsCopy, state.sortByValue);
       saveInLocalStorage(PRODUCTS_STORAGE_KEY, productsCopy);
       return {
         ...state,
@@ -32,13 +35,17 @@ export const reducer = (state, action) => {
       return newState;
     case actioTypes.UPDATE_ITEM:
       const product = action.payload;
-      const productsStateCopy = [...state.products];
+      let productsStateCopy = [...state.products];
       const newProductIndex = productsStateCopy.findIndex(
         ({ id }) => id === product.id
       );
       if (newProductIndex !== -1) {
-        productsStateCopy[newProductIndex] = product;
+        productsStateCopy[newProductIndex] = {
+          ...product,
+          name: product.name.toUpperCase(),
+        };
       }
+      productsStateCopy = sortItems(productsStateCopy, state.sortByValue);
       saveInLocalStorage(PRODUCTS_STORAGE_KEY, productsStateCopy);
       return {
         ...state,
@@ -55,6 +62,18 @@ export const reducer = (state, action) => {
         ...state,
         selectedProduct: action.payload,
       };
+    case actioTypes.UPDATE_SORT_BY_VALUE: {
+      return {
+        ...state,
+        sortByValue: action.payload,
+      };
+    }
+    case actioTypes.UPDATE_SEARCH_VALUE: {
+      return {
+        ...state,
+        searchValue: action.payload,
+      };
+    }
     default:
       break;
   }

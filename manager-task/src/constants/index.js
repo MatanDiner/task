@@ -6,6 +6,7 @@ export const PRODUCT_VALIDATIONS_CONFIG = {
   name: [RREQUIRED_VALIDAION],
   description: [RREQUIRED_VALIDAION],
   price: [RREQUIRED_VALIDAION, IS_NUMBER_VALIDAION, RREQUIRED_NUMBER_VALIDAION],
+  discount: [IS_NUMBER_VALIDAION],
 };
 
 export const PRODUCT_ERROR_MESSAGE_CONFIG = {
@@ -15,6 +16,9 @@ export const PRODUCT_ERROR_MESSAGE_CONFIG = {
     [RREQUIRED_VALIDAION]: "נא להזין מחיר",
     [IS_NUMBER_VALIDAION]: "נא להזין מספר תקין",
     [RREQUIRED_NUMBER_VALIDAION]: "נא להזין מספר גדול מאפס",
+  },
+  discount: {
+    [IS_NUMBER_VALIDAION]: "נא להזין מספר תקין",
   },
 };
 

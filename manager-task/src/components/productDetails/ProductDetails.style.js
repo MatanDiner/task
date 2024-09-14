@@ -8,10 +8,10 @@ export const useStyles = makeStyles({
     backgroundColor: "antiquewhite !important",
     marginTop: 20,
     flex: 1,
-    height: 500,
+    height: 700,
     justifyContent: "space-between",
     "@media (max-width: 800px)": {
-      minHeight: 600,
+      minHeight: 800,
     },
   },
   img: {
